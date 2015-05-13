@@ -9,11 +9,7 @@ require 'slack-notifier'
 # ---
 # LOG_LEVEL
 # POLL_INTERVAL
-# DB_HOST
-# DB_PORT
-# DB_NAME
-# DB_USERNAME
-# DB_PASSWORD
+# DATABASE_URL
 # DB_SSL
 # UNFUDDLE_SUBDOMAIN
 # UNFUDDLE_PROJECT_ID
@@ -30,15 +26,16 @@ module Clockwork
     logger.level = ENV['LOG_LEVEL'].to_i || Logger::INFO
 
     # Retrieve last sync time from database.
-      db = PG.connect(
-        :host => ENV['DB_HOST'],
-        :port => ENV['DB_PORT'] || 5432,
-        :dbname => ENV['DB_NAME'],
-        :user => ENV['DB_USERNAME'],
-        :password => ENV['DB_PASSWORD'],
-        :sslmode => ENV['DB_SSL'] || 'require'
-      )
-      logger.info 'Connection to database established.'
+    db_uri = URI.parse(ENV['DATABASE_URL'])
+    db = PG.connect(
+      :host => db_uri.host,
+      :port => db_uri.port || 5432,
+      :dbname => db_uri.path[1..-1],
+      :user => db_uri.user,
+      :password => db_uri.password,
+      :sslmode => ENV['DB_SSL'] || 'prefer'
+    )
+    logger.info 'Connection to database established.'
 
     # Ensure we close the database connection when leaving this block.
     begin
