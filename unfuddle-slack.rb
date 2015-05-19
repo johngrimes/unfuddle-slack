@@ -121,8 +121,8 @@ module Clockwork
         attachments = []
         if item['record_type'] == 'Ticket'
           attachments = [{
-            :fallback => item['record']['ticket']['summary'],
-            :title => item['record']['ticket']['summary'],
+            :fallback => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
+            :title => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
             :title_link => "#{unfuddle_base_url}/projects/" +
               "#{ENV['UNFUDDLE_PROJECT_ID']}/tickets/by_number/" +
               "#{item['record']['ticket']['number']}",
@@ -131,8 +131,8 @@ module Clockwork
           }]
         elsif item['record_type'] == 'Comment'
           attachments = [{
-            :fallback => item['ticket_summary'],
-            :title => item['ticket_summary'],
+            :fallback => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
+            :title => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
             :title_link => "#{unfuddle_base_url}/projects/" +
               "#{ENV['UNFUDDLE_PROJECT_ID']}/tickets/by_number/" +
               "#{item['ticket_number']}[comment-#{item['record']['comment']['id']}]",
