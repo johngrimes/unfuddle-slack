@@ -93,7 +93,7 @@ module Clockwork
           activity_items = JSON.parse(response.body)
           logger.info "Unfuddle activity successfully retrieved (start_date = " +
             "\"#{start_date}\"): #{activity_items.size} new items."
-          logger.debug "activity_items = #{activity_items.inspect}"
+          logger.debug "activity_items = #{JSON.generate(activity_items)}"
         else
           logger.error 'Error response from Unfuddle, aborting the rest of the ' +
             "job: #{response.code}"
@@ -108,7 +108,7 @@ module Clockwork
             DateTime.strptime(y['created_at'], '%Y-%m-%dT%H:%M:%S%z')
         }
         logger.info "Activity items sorted by date ascending."
-        logger.debug "activity_items = #{activity_items.inspect}"
+        logger.debug "activity_items = #{JSON.generate(activity_items)}"
       end
 
       # Ping Slack for each new activity entry.
@@ -164,7 +164,7 @@ module Clockwork
           logger.info 'Successfully updated Slack with new activity item ' +
             "(#{item['id']}): #{item['summary']}"
           logger.debug "new_sync_time = #{new_sync_time}"
-          logger.debug "attachments = #{attachments.inspect}"
+          logger.debug "attachments = #{JSON.generate(attachments)}"
         rescue => e
           logger.error "Error updating Slack with activity item (#{item['id']}): " +
             "#{item['summary']}"
