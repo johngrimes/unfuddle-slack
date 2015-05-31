@@ -121,8 +121,8 @@ module Clockwork
         attachments = []
         if item['record_type'] == 'Ticket'
           attachments = [{
-            :fallback => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
-            :title => "##{item['record']['ticket']['number']}: #{item['ticket_summary']}",
+            :fallback => "##{item['record']['ticket']['number']}: #{item['record']['ticket']['summary']}",
+            :title => "##{item['record']['ticket']['number']}: #{item['record']['ticket']['summary']}",
             :title_link => "#{unfuddle_base_url}/projects/" +
               "#{ENV['UNFUDDLE_PROJECT_ID']}/tickets/by_number/" +
               "#{item['record']['ticket']['number']}",
