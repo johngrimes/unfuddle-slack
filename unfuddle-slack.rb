@@ -75,7 +75,7 @@ module Clockwork
         # Format last sync time according to the format accepted by the API
         # method, and add 1 second to take account of the fact that the
         # Unfuddle uses the condition as an inclusive start date.
-        start_date = (last_sync_time + Rational(1, 60 * 60 * 24)).
+        start_date = (last_sync_time + 1).
           strftime('%a, %d %b %Y %H:%M:%S %Z')
 
         uri = URI("#{unfuddle_base_url}/api/v1/projects/" +
